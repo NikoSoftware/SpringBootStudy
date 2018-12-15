@@ -24,7 +24,6 @@ public class TextControl {
     @RequestMapping("/")
     Object Home(){
 
-
         return serverSetting;
 
     }
@@ -32,7 +31,6 @@ public class TextControl {
 
     @RequestMapping("/hotStart")
     Object hotStart(){
-
 
         return "hotStart success!";
 
@@ -42,15 +40,14 @@ public class TextControl {
     @RequestMapping("/getAllPersonInfo")
     Object getAllPersonInfo(){
 
-
-        return userService.getAllUser();
+        return null;
     }
 
 
     @RequestMapping("/selectByPrimaryKey")
     Object selectByPrimaryKey(){
 
-        return userService.selectByPrimaryKey(15);
+        return null;
     }
 
 }

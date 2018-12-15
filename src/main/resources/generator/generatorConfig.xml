@@ -2,12 +2,15 @@
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
 <generatorConfiguration>
+    <!--导入属性配置-->
     <properties resource="application.properties" />
 
+    <!--指定特定数据库的jdbc驱动jar包的位置-->
+    <!--<classPathEntry location="${spring.datasource.driverLocation}"/>-->
+
     <context id="default" targetRuntime="MyBatis3">
-        <!-- 生成的pojo，将implements Serializable-->
-        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
 
         <!-- optional，旨在创建class时，对注释进行控制 -->
         <commentGenerator>
@@ -22,23 +25,19 @@
                         password="${spring.datasource.password}">
         </jdbcConnection>
 
-        <!--
-        默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer
-            true，把JDBC DECIMAL 和 NUMERIC 类型解析为java.math.BigDecimal
-        -->
+
+        <!-- 非必需，类型处理器，在数据库类型和java类型之间的转换控制-->
         <javaTypeResolver>
-            <property name="forceBigDecimals" value="false" />
+            <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
 
-
-
-        <!--
-        生成model模型，对应的包路径，以及文件存放路径(targetProject)，targetProject可以指定具体的路径,如./src/main/java，
-        也可以使用“MAVEN”来自动生成，这样生成的代码会在target/generatord-source目录下
+        <!-- Model模型生成器,用来生成含有主键key的类，记录类 以及查询Example类
+            targetPackage     指定生成的model生成所在的包名
+            targetProject     指定在该项目下所在的路径
         -->
-        <!--<javaModelGenerator targetPackage="com.joey.mybaties.test.pojo" targetProject="MAVEN">-->
-        <javaModelGenerator targetPackage="com.example.springbootstudy.entity" targetProject="./src/main/java">
+        <javaModelGenerator targetPackage="com.example.springbootstudy.entity"
+                            targetProject="src/main/java">
 
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
             <property name="enableSubPackages" value="false"/>
@@ -50,23 +49,40 @@
             <property name="immutable" value="false"/>
         </javaModelGenerator>
 
-        <!--对应的mapper.xml文件  -->
-        <sqlMapGenerator targetPackage="mapping" targetProject="src/main/resources">
-            <property name="enableSubPackages" value="true"/>
+        <!--Mapper映射文件生成所在的目录 为每一个数据库的表生成对应的SqlMap文件 -->
+        <sqlMapGenerator targetPackage="mapping"
+                         targetProject="src/main/resources">
+            <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <!-- 对应的Mapper接口类文件 -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.example.springbootstudy.dao" targetProject="./src/main/java">
+        <!-- 客户端代码，生成易于使用的针对Model对象和XML配置文件 的代码
+                type="ANNOTATEDMAPPER",生成Java Model 和基于注解的Mapper对象
+                type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
+                type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
+        -->
+        <javaClientGenerator targetPackage="com.example.springbootstudy.dao"
+                             targetProject="src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
 
-        <!-- 列出要生成代码的所有表，这里配置的是不生成Example文件 -->
-        <table tableName="user" domainObjectName="User"
+
+        <table tableName="person" domainObjectName="Person"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
 
+        <table tableName="userData" domainObjectName="UserData"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+
+        <table tableName="websites" domainObjectName="Websites"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
     </context>
 </generatorConfiguration>
