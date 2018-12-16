@@ -1,6 +1,7 @@
 package com.example.springbootstudy.filter;
 
 
+import com.example.springbootstudy.entity.MsgEntity;
 import com.example.springbootstudy.entity.TokenStatus;
 import com.example.springbootstudy.loginInfo.JwtToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,8 +33,12 @@ public class TokenFilter implements Filter {
             chain.doFilter(request,response);
         }else{
              response.setContentType("application/json;charset=UTF-8");
-             ObjectMapper mapper = new ObjectMapper();//mapper.writeValueAsString()
-             response.getWriter().print("token 异常");
+             ObjectMapper mapper = new ObjectMapper();
+             MsgEntity msgEntity  = new MsgEntity();
+             msgEntity.setCode(msgEntity.ERROR);
+             msgEntity.setMsg("Token有误");
+
+             response.getWriter().print(mapper.writeValueAsString(msgEntity));
              response.getWriter().close();
         }
 
