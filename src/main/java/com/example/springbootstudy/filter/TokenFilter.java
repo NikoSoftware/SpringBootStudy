@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/")
+@WebFilter(urlPatterns = "/app")
 @Order(10)
 public class TokenFilter implements Filter {
 
